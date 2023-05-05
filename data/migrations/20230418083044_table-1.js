@@ -66,6 +66,8 @@ exports.up = function (knex) {
       client.string("occupation").notNullable();
       client.integer("workStartYear").notNullable();
       client.string("graduate").notNullable();
+      client.integer("probability");
+      client.string("status");
     });
 };
 

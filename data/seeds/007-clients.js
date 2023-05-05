@@ -11,6 +11,8 @@ const clientData = [
     occupation: "Öğretmen",
     workStartYear: 2017,
     graduate: "Lise",
+    probability: null,
+    status: "in progress",
   },
   {
     name: "Ziya",
@@ -20,6 +22,8 @@ const clientData = [
     occupation: "Yönetici",
     workStartYear: 1995,
     graduate: "Üniversite",
+    probability: null,
+    status: "in progress",
   },
   {
     name: "Abdurrahman",
@@ -29,6 +33,8 @@ const clientData = [
     occupation: "Doktor",
     workStartYear: 1997,
     graduate: "Üniversite",
+    probability: null,
+    status: "in progress",
   },
 
   {
@@ -39,6 +45,8 @@ const clientData = [
     occupation: "Doktor",
     workStartYear: 1979,
     graduate: "Üniversite",
+    probability: null,
+    status: "in progress",
   },
 
   {
@@ -49,6 +57,8 @@ const clientData = [
     occupation: "Öğretmen",
     workStartYear: 1995,
     graduate: "Lise",
+    probability: null,
+    status: "in progress",
   },
   {
     name: "Abdurezak",
@@ -58,6 +68,8 @@ const clientData = [
     occupation: "Yönetici",
     workStartYear: 1997,
     graduate: "Ortaokul",
+    probability: null,
+    status: "in progress",
   },
 
   {
@@ -68,6 +80,8 @@ const clientData = [
     occupation: "Doktor",
     workStartYear: 2011,
     graduate: "Üniversite",
+    probability: null,
+    status: "in progress",
   },
 
   {
@@ -78,6 +92,8 @@ const clientData = [
     occupation: "Yönetici",
     workStartYear: 1979,
     graduate: "Ortaokul",
+    probability: null,
+    status: "in progress",
   },
 ];
 

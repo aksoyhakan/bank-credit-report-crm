@@ -4,9 +4,20 @@ import { useSelector } from "react-redux";
 
 function Graph() {
   const clients = useSelector((state) => state.clients);
+  const allClients = useSelector((state) => state.allClients);
   let graudateQuantity = { İlkokul: 0, Ortaokul: 0, Lise: 0, Üniversite: 0 };
   let sectorQuantity = { Sağlık: 0, Kamu: 0, Eğitim: 0 };
   let occupationQuantity = { Yönetici: 0, Doktor: 0, Öğretmen: 0 };
+  let statusQuantity = { "in progress": 0, completed: 0 };
+
+  allClients.forEach((client) => {
+    statusQuantity[client.status] = statusQuantity[client.status] + 1;
+  });
+
+  const status = [
+    { name: "Tamamlanan", clients: statusQuantity["completed"] },
+    { name: "Devam Eden", clients: statusQuantity["in progress"] },
+  ];
 
   clients.forEach((client) => {
     graudateQuantity[client.graduate] = graudateQuantity[client.graduate] + 1;
@@ -34,15 +45,15 @@ function Graph() {
   ];
   return (
     <div>
-      <h1 className="text-center font-bold text-2xl mt-16">Metrik Ölçütler</h1>
+      <h1 className="text-center font-bold text-2xl">Metrik Ölçütler</h1>
 
-      <div className="flex justify-around align-middle mt-8">
+      <div className="flex justify-around align-middle">
         <div className="text-center">
           <h2 className="font-bold">Eğitim Durumuna Göre</h2>
           <BarChart
             className="mx-auto"
             width={300}
-            height={300}
+            height={250}
             data={graduate}
           >
             <Bar dataKey="clients" fill="green" />
@@ -53,21 +64,32 @@ function Graph() {
         </div>
         <div className="text-center">
           <h2 className="font-bold">Sektör Durumuna Göre</h2>
-          <BarChart className="mx-auto" width={300} height={300} data={sector}>
+          <BarChart className="mx-auto" width={300} height={250} data={sector}>
             <Bar dataKey="clients" fill="blue" />
             <CartesianGrid stroke="#ccc" />
             <XAxis dataKey="name" />
             <YAxis />
           </BarChart>
         </div>
+      </div>
+      <div className="flex justify-around align-middle">
         <div className="text-center">
           <h2 className="font-bold">Meslek Durumuna Göre</h2>
           <BarChart
             className="mx-auto"
             width={300}
-            height={300}
+            height={250}
             data={occupation}
           >
+            <Bar dataKey="clients" fill="red" />
+            <CartesianGrid stroke="#ccc" />
+            <XAxis dataKey="name" />
+            <YAxis />
+          </BarChart>
+        </div>
+        <div className="text-center">
+          <h2 className="font-bold">İşlem Durumlarına Göre</h2>
+          <BarChart className="mx-auto" width={300} height={250} data={status}>
             <Bar dataKey="clients" fill="red" />
             <CartesianGrid stroke="#ccc" />
             <XAxis dataKey="name" />

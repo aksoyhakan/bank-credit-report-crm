@@ -5,6 +5,9 @@ import {
   getClientAllSuitableAPI,
   getNewClientAPI,
   graphToogle,
+  getCompletedClientAPI,
+  completedToogle,
+  getAllClientAPI,
 } from "../reducer/actions";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -15,6 +18,7 @@ export default function Navbar() {
   const dispatch = useDispatch();
   const token = useSelector((state) => state.token);
   const typeformToken = useSelector((state) => state.currentUser.typeformToken);
+  const rolename = useSelector((state) => state.currentUser.rolename);
 
   function handleChange(event) {
     setQuery({
@@ -29,6 +33,8 @@ export default function Navbar() {
   function handleClickNewClient() {
     dispatch(getNewClientAPI(typeformToken, token));
     dispatch(graphToogle(false));
+    dispatch(completedToogle(false));
+    dispatch(getAllClientAPI(token));
   }
 
   function handleClickClient() {
@@ -36,17 +42,28 @@ export default function Navbar() {
     console.log(query);
     dispatch(getClientAPI(query, token));
     dispatch(graphToogle(false));
+    dispatch(completedToogle(false));
+    dispatch(getAllClientAPI(token));
     setQuery(dummyQuery);
   }
 
   function handleClickAllSuitableClient() {
     dispatch(getClientAllSuitableAPI(token));
     dispatch(graphToogle(false));
+    dispatch(completedToogle(false));
+    dispatch(getAllClientAPI(token));
     setQuery(dummyQuery);
   }
 
   function handleClickGraph() {
     dispatch(graphToogle(true));
+    dispatch(completedToogle(false));
+  }
+
+  function handleClickCompleted() {
+    dispatch(getCompletedClientAPI(token));
+    dispatch(getAllClientAPI(token));
+    dispatch(graphToogle(false));
   }
 
   return (
@@ -115,12 +132,22 @@ export default function Navbar() {
           <div>Type Form Veri Çek</div>
         </div>
         <div
-          onClick={handleClickGraph}
+          onClick={handleClickCompleted}
           className="flex gap-4 border-solid border-2 border-black-900"
         >
           <div>060</div>
-          <div>Grafikler</div>
+          <div>İşlemleri Tamamlanan</div>
         </div>
+
+        {rolename === "süper yönetici" && (
+          <div
+            onClick={handleClickGraph}
+            className="flex gap-4 border-solid border-2 border-black-900"
+          >
+            <div>070</div>
+            <div>Grafikler</div>
+          </div>
+        )}
       </div>
     </div>
   );

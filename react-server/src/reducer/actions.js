@@ -7,6 +7,12 @@ export const LOGOUT = "LOGOUT";
 export const GET_CLIENT = "GET_CLIENT";
 export const GET_POSSIBILITY = "GET_POSSIBILITY";
 export const GRAPH_TOGGLE = "GRAPH_TOGGLE";
+export const GET_COMPLETED = "GET_COMPLETED";
+export const GET_ALL_CLIENTS = "GET_ALL_CLIENTS";
+
+export function getAllClients(allClients) {
+  return { type: GET_ALL_CLIENTS, payload: allClients };
+}
 
 export function changeCurrentUser(currentUser) {
   return { type: CURRENT_USER, payload: currentUser };
@@ -14,6 +20,10 @@ export function changeCurrentUser(currentUser) {
 
 export function graphToogle(status) {
   return { type: GRAPH_TOGGLE, payload: status };
+}
+
+export function completedToogle(status) {
+  return { type: GET_COMPLETED, payload: status };
 }
 
 export function writeDatabaseError(databaseError) {
@@ -69,6 +79,8 @@ export const getNewClientAPI = (typeformToken, token) => (dispatch) => {
         client.occupation = response.data.items[i].answers[3].text;
         client.workStartYear = response.data.items[i].answers[5].number;
         client.graduate = response.data.items[i].answers[6].text;
+        client.probability = 0;
+        client.status = "in progress";
         axios
           .post("http://localhost:8000/clients", client, {
             headers: { Authorization: token },
@@ -114,7 +126,6 @@ export const getClientAPI = (query, token) => (dispatch) => {
   axios
     .get("http://localhost:8000/clients", config)
     .then((response) => {
-      console.log(response.data);
       dispatch(changeClient(response.data));
     })
     .catch((err) => {
@@ -127,7 +138,9 @@ export const getClientAllSuitableAPI = (token) => (dispatch) => {
     .get("http://localhost:8000/clients/allsuitable", {
       headers: { authorization: token },
     })
-    .then((response) => dispatch(changeClient(response.data)))
+    .then((response) => {
+      dispatch(changeClient(response.data));
+    })
     .catch((err) => {
       dispatch(writeDatabaseError(err.response.data.message));
     });
@@ -145,7 +158,7 @@ export const getPointAPI = (token) => (dispatch) => {
 };
 
 export const sendClientPipeDrive =
-  (pipedriveToken, token, clientId, client) => (dispatch) => {
+  (pipedriveToken, token, clientId, client, databaseClient) => (dispatch) => {
     axios
       .post(
         `https://aksoy.pipedrive.com/v1/deals?api_token=${pipedriveToken}`,
@@ -153,11 +166,15 @@ export const sendClientPipeDrive =
       )
       .then((response) => {
         axios
-          .delete(`http://localhost:8000/clients/${clientId}`, {
+          .put(`http://localhost:8000/clients/${clientId}`, databaseClient, {
             headers: { authorization: token },
           })
-          .then((response) => dispatch(changeClient(response.data)))
+          .then((response) => {
+            console.log(response.data);
+            dispatch(changeClient(response.data));
+          })
           .catch((err) => {
+            console.log(err.response.data.message);
             dispatch(writeDatabaseError(err.response.data.message));
           });
       })
@@ -165,3 +182,30 @@ export const sendClientPipeDrive =
         dispatch(writeDatabaseError(err.response.data.message));
       });
   };
+
+export const getCompletedClientAPI = (token) => (dispatch) => {
+  axios
+    .get("http://localhost:8000/clients/completed", {
+      headers: { authorization: token },
+    })
+    .then((response) => {
+      dispatch(changeClient(response.data));
+      dispatch(completedToogle(true));
+    })
+    .catch((err) => {
+      dispatch(writeDatabaseError(err.response.data.message));
+    });
+};
+
+export const getAllClientAPI = (token) => (dispatch) => {
+  axios
+    .get("http://localhost:8000/clients/all", {
+      headers: { authorization: token },
+    })
+    .then((response) => {
+      dispatch(getAllClients(response.data));
+    })
+    .catch((err) => {
+      dispatch(writeDatabaseError(err.response.data.message));
+    });
+};
