@@ -9,6 +9,11 @@ export const GET_POSSIBILITY = "GET_POSSIBILITY";
 export const GRAPH_TOGGLE = "GRAPH_TOGGLE";
 export const GET_COMPLETED = "GET_COMPLETED";
 export const GET_ALL_CLIENTS = "GET_ALL_CLIENTS";
+export const NIGHT_MODE = "NIGHT_MODE";
+
+export function nightMode() {
+  return { type: NIGHT_MODE };
+}
 
 export function getAllClients(allClients) {
   return { type: GET_ALL_CLIENTS, payload: allClients };

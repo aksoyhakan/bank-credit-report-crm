@@ -5,6 +5,7 @@ import { useSelector } from "react-redux";
 function Graph() {
   const clients = useSelector((state) => state.clients);
   const allClients = useSelector((state) => state.allClients);
+  const nightMode = useSelector((state) => state.nightMode);
   let graudateQuantity = { İlkokul: 0, Ortaokul: 0, Lise: 0, Üniversite: 0 };
   let sectorQuantity = { Sağlık: 0, Kamu: 0, Eğitim: 0 };
   let occupationQuantity = { Yönetici: 0, Doktor: 0, Öğretmen: 0 };
@@ -45,11 +46,21 @@ function Graph() {
   ];
   return (
     <div>
-      <h1 className="text-center font-bold text-2xl">Metrik Ölçütler</h1>
+      <h1
+        className={` text-center font-bold text-2xl ${
+          nightMode ? "text-white" : "text-black"
+        }`}
+      >
+        Metrik Ölçütler
+      </h1>
 
       <div className="flex justify-around align-middle">
         <div className="text-center">
-          <h2 className="font-bold">Eğitim Durumuna Göre</h2>
+          <h2
+            className={`font-bold ${nightMode ? "text-white" : "text-black"}`}
+          >
+            Eğitim Durumuna Göre
+          </h2>
           <BarChart
             className="mx-auto"
             width={300}
@@ -63,7 +74,11 @@ function Graph() {
           </BarChart>
         </div>
         <div className="text-center">
-          <h2 className="font-bold">Sektör Durumuna Göre</h2>
+          <h2
+            className={`font-bold ${nightMode ? "text-white" : "text-black"}`}
+          >
+            Sektör Durumuna Göre
+          </h2>
           <BarChart className="mx-auto" width={300} height={250} data={sector}>
             <Bar dataKey="clients" fill="blue" />
             <CartesianGrid stroke="#ccc" />
@@ -74,7 +89,11 @@ function Graph() {
       </div>
       <div className="flex justify-around align-middle">
         <div className="text-center">
-          <h2 className="font-bold">Meslek Durumuna Göre</h2>
+          <h2
+            className={`font-bold ${nightMode ? "text-white" : "text-black"}`}
+          >
+            Meslek Durumuna Göre
+          </h2>
           <BarChart
             className="mx-auto"
             width={300}
@@ -88,9 +107,13 @@ function Graph() {
           </BarChart>
         </div>
         <div className="text-center">
-          <h2 className="font-bold">İşlem Durumlarına Göre</h2>
+          <h2
+            className={`font-bold ${nightMode ? "text-white" : "text-black"}`}
+          >
+            İşlem Durumlarına Göre
+          </h2>
           <BarChart className="mx-auto" width={300} height={250} data={status}>
-            <Bar dataKey="clients" fill="red" />
+            <Bar dataKey="clients" fill="purple" />
             <CartesianGrid stroke="#ccc" />
             <XAxis dataKey="name" />
             <YAxis />

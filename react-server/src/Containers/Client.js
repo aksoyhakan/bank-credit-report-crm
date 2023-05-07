@@ -9,6 +9,7 @@ function Client(props) {
   const [point, setPoint] = useState(null);
   const rolename = useSelector((state) => state.currentUser.rolename);
   const completed = useSelector((state) => state.completed);
+  const nightMode = useSelector((state) => state.nightMode);
 
   const pipedriveToken = useSelector(
     (state) => state.currentUser.pipedriveToken
@@ -61,15 +62,33 @@ function Client(props) {
 
   return (
     <div className="flex justify-between mx-16 my-4 border-b-4 pb-4">
-      <p className="w-2">{line}</p>
-      <p className="w-16">{data.name}</p>
-      <p className="w-16">{data.surname}</p>
-      <p className="w-16">{data.occupation}</p>
-      <p className="w-16">{data.workStartYear}</p>
-      <p className="w-8">{data.graduate}</p>
-      {completed && <p className="w-8">{data.status}</p>}
+      <p className={`w-2 ${nightMode ? "text-white" : "text-black"}`}>{line}</p>
+      <p className={`w-16 ${nightMode ? "text-white" : "text-black"}`}>
+        {data.name}
+      </p>
+      <p className={`w-16 ${nightMode ? "text-white" : "text-black"}`}>
+        {data.surname}
+      </p>
+      <p className={`w-16 ${nightMode ? "text-white" : "text-black"}`}>
+        {data.occupation}
+      </p>
+      <p className={`w-20 ${nightMode ? "text-white" : "text-black"}`}>
+        {data.workStartYear}
+      </p>
+      <p className={`w-8 ${nightMode ? "text-white" : "text-black"}`}>
+        {data.graduate}
+      </p>
+      {completed && (
+        <p className={`w-8 ${nightMode ? "text-white" : "text-black"}`}>
+          {data.status}
+        </p>
+      )}
       {!completed && (
-        <input type="text" className="w-8 text-right" value={point}></input>
+        <input
+          type="text"
+          className={`block w-12 ${nightMode ? "text-white" : "text-black"}`}
+          value={point}
+        ></input>
       )}
       {!completed && (
         <button

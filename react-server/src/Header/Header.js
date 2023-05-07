@@ -3,15 +3,21 @@ import { AiOutlineSearch } from "react-icons/ai";
 import { BsFullscreen } from "react-icons/bs";
 import { MdOutlineLocalPostOffice } from "react-icons/md";
 import { useSelector, useDispatch } from "react-redux";
-import { logout } from "../reducer/actions";
+import { logout, nightMode } from "../reducer/actions";
+import "../../src/index.css";
 
 export default function Header() {
   const currentUser = useSelector((state) => state.currentUser);
   const dispatch = useDispatch();
+  const nightModeStatus = useSelector((state) => state.nightMode);
 
   function handleLogout(e) {
     e.preventDefault();
     dispatch(logout());
+  }
+
+  function handleNightMode() {
+    dispatch(nightMode());
   }
 
   return (
@@ -23,6 +29,12 @@ export default function Header() {
         </div>
         <div className="flex text-white gap-3 mr-7 items-center ">
           <MdOutlineLocalPostOffice className="text-3xl mr-3" />
+          <div className="dark-mode__toggle">
+            <div
+              onClick={handleNightMode}
+              className={nightModeStatus ? "toggle toggled" : "toggle"}
+            />
+          </div>
           <div>
             <p>{currentUser.username}</p>
           </div>

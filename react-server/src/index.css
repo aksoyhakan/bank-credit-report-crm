@@ -1,6 +1,33 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-.back{
- background-image: linear-gradient(to right,rgb(171, 75, 219),rgb(24, 210, 251)); 
+.back {
+  background-image: linear-gradient(
+    to right,
+    rgb(171, 75, 219),
+    rgb(24, 210, 251)
+  );
+}
+
+.dark-mode__toggle {
+  background: rgb(221, 213, 255);
+  border-radius: 50px;
+  border: 1px solid black;
+  height: 20px;
+  position: relative;
+  width: 40px;
+}
+
+.toggle {
+  background: #1e7bad;
+  border-radius: 50px;
+  height: 18px;
+  left: 0;
+  position: absolute;
+  transition: 0.2s;
+  width: 20px;
+}
+
+.toggled {
+  left: 18px;
 }
