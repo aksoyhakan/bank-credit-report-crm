@@ -8,6 +8,8 @@ import {
   getCompletedClientAPI,
   completedToogle,
   getAllClientAPI,
+  dataToggle,
+  modifyClient,
 } from "../reducer/actions";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -35,15 +37,17 @@ export default function Navbar() {
     dispatch(getNewClientAPI(typeformToken, token));
     dispatch(graphToogle(false));
     dispatch(completedToogle(false));
+    dispatch(dataToggle(false));
+    dispatch(modifyClient(0));
     dispatch(getAllClientAPI(token));
   }
 
   function handleClickClient() {
-    console.log(token);
-    console.log(query);
     dispatch(getClientAPI(query, token));
     dispatch(graphToogle(false));
     dispatch(completedToogle(false));
+    dispatch(dataToggle(false));
+    dispatch(modifyClient(0));
     dispatch(getAllClientAPI(token));
     setQuery(dummyQuery);
   }
@@ -52,21 +56,33 @@ export default function Navbar() {
     dispatch(getClientAllSuitableAPI(token));
     dispatch(graphToogle(false));
     dispatch(completedToogle(false));
+    dispatch(dataToggle(false));
     dispatch(getAllClientAPI(token));
+    dispatch(modifyClient(0));
     setQuery(dummyQuery);
   }
 
   function handleClickGraph() {
     dispatch(graphToogle(true));
     dispatch(completedToogle(false));
+    dispatch(dataToggle(false));
+    dispatch(modifyClient(0));
   }
 
   function handleClickCompleted() {
     dispatch(getCompletedClientAPI(token));
     dispatch(getAllClientAPI(token));
     dispatch(graphToogle(false));
+    dispatch(dataToggle(false));
+    dispatch(modifyClient(0));
   }
-  console.log(nightMode);
+
+  function handleGetData() {
+    dispatch(dataToggle(true));
+    dispatch(graphToogle(false));
+    dispatch(completedToogle(false));
+    dispatch(modifyClient(0));
+  }
   return (
     <div
       className={` w-1/4 h-screen shadow-2xl pl-8 p-4 ${
@@ -84,7 +100,7 @@ export default function Navbar() {
         </div>
         <div
           onClick={handleClickClient}
-          className="flex gap-4 border-solid border-2 border-black-900"
+          className="flex gap-4 border-solid border-2 border-black-900 pl-2"
         >
           <div className={`${nightMode ? "text-white" : "text-black"}`}>
             010
@@ -95,7 +111,7 @@ export default function Navbar() {
         </div>
         <div
           onClick={handleClickClient}
-          className="flex gap-4 border-solid border-2 border-black-900"
+          className="flex gap-4 border-solid border-2 border-black-900 pl-2"
         >
           <div className={`${nightMode ? "text-white" : "text-black"}`}>
             020
@@ -120,7 +136,7 @@ export default function Navbar() {
         </div>
         <div
           onClick={handleClickClient}
-          className="flex gap-4 border-solid border-2 border-black-900"
+          className="flex gap-4 border-solid border-2 border-black-900 pl-2"
         >
           <div className={`${nightMode ? "text-white" : "text-black"}`}>
             030
@@ -148,7 +164,7 @@ export default function Navbar() {
 
         <div
           onClick={handleClickAllSuitableClient}
-          className="flex gap-4 border-solid border-2 border-black-900"
+          className="flex gap-4 border-solid border-2 border-black-900 pl-2"
         >
           <div className={`${nightMode ? "text-white" : "text-black"}`}>
             040
@@ -159,7 +175,7 @@ export default function Navbar() {
         </div>
         <div
           onClick={handleClickNewClient}
-          className="flex gap-4 border-solid border-2 border-black-900"
+          className="flex gap-4 border-solid border-2 border-black-900 pl-2"
         >
           <div className={`${nightMode ? "text-white" : "text-black"}`}>
             050
@@ -170,7 +186,7 @@ export default function Navbar() {
         </div>
         <div
           onClick={handleClickCompleted}
-          className="flex gap-4 border-solid border-2 border-black-900"
+          className="flex gap-4 border-solid border-2 border-black-900 pl-2"
         >
           <div className={`${nightMode ? "text-white" : "text-black"}`}>
             060
@@ -183,13 +199,27 @@ export default function Navbar() {
         {rolename === "süper yönetici" && (
           <div
             onClick={handleClickGraph}
-            className="flex gap-4 border-solid border-2 border-black-900"
+            className="flex gap-4 border-solid border-2 border-black-900 pl-2"
           >
             <div className={`${nightMode ? "text-white" : "text-black"}`}>
               070
             </div>
             <div className={`${nightMode ? "text-white" : "text-black"}`}>
               Grafikler
+            </div>
+          </div>
+        )}
+
+        {rolename === "süper yönetici" && (
+          <div
+            onClick={handleGetData}
+            className="flex gap-4 border-solid border-2 border-black-900 pl-2"
+          >
+            <div className={`${nightMode ? "text-white" : "text-black"}`}>
+              080
+            </div>
+            <div className={`${nightMode ? "text-white" : "text-black"}`}>
+              Meslek-Sektör Verileri
             </div>
           </div>
         )}

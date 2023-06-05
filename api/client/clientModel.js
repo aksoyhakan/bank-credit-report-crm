@@ -75,9 +75,7 @@ async function removeClient(clientId) {
 async function updateClient(clientId, client) {
   await db("clients").where({ clientId }).update(client);
 
-  const liste = await db("clients").where("status", "in progress");
-
-  return liste;
+  return await db("clients").where("status", "in progress");
 }
 
 async function getCompleted() {

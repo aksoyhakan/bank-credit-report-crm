@@ -10,11 +10,65 @@ export const GRAPH_TOGGLE = "GRAPH_TOGGLE";
 export const GET_COMPLETED = "GET_COMPLETED";
 export const GET_ALL_CLIENTS = "GET_ALL_CLIENTS";
 export const NIGHT_MODE = "NIGHT_MODE";
+export const MODIFY_CLIENT = "MODIFY_CLIENT";
+export const GET_JOBS = "GET_JOBS";
+export const GET_SECTORS = "GET_SECTORS";
+export const GET_PRIORITIES = "GET_PRIORITIES";
+export const DATA_TOGGLE = "DATA_TOGGLE";
+export const MODIFY_JOB = "MODIFY_JOB";
+export const MODIFY_SECTOR = "MODIFY_SECTOR";
+export const MODIFY_PRIORITY = "MODIFY_PRIORITY";
+export const ADD_JOB = "ADD_JOB";
+export const ADD_SECTOR = "ADD_SECTOR";
+export const ADD_PRIORITY = "ADD_PRIORITY";
+
+export function addJob() {
+  return { type: ADD_JOB };
+}
+
+export function addSector() {
+  return { type: ADD_SECTOR };
+}
+
+export function addPriority() {
+  return { type: ADD_PRIORITY };
+}
+
+export function modifyJob(index) {
+  return { type: MODIFY_JOB, payload: index };
+}
+
+export function modifySector(index) {
+  return { type: MODIFY_SECTOR, payload: index };
+}
+
+export function modifyPriority(index) {
+  return { type: MODIFY_PRIORITY, payload: index };
+}
+
+export function dataToggle(status) {
+  return { type: DATA_TOGGLE, payload: status };
+}
+
+export function getJobs(jobs) {
+  return { type: GET_JOBS, payload: jobs };
+}
+
+export function getSectors(sectors) {
+  return { type: GET_SECTORS, payload: sectors };
+}
+
+export function getPriorities(priorities) {
+  return { type: GET_PRIORITIES, payload: priorities };
+}
 
 export function nightMode() {
   return { type: NIGHT_MODE };
 }
 
+export function modifyClient(index) {
+  return { type: MODIFY_CLIENT, payload: index };
+}
 export function getAllClients(allClients) {
   return { type: GET_ALL_CLIENTS, payload: allClients };
 }
@@ -170,6 +224,7 @@ export const sendClientPipeDrive =
         client
       )
       .then((response) => {
+        /*
         axios
           .put(`http://localhost:8000/clients/${clientId}`, databaseClient, {
             headers: { authorization: token },
@@ -181,9 +236,21 @@ export const sendClientPipeDrive =
           .catch((err) => {
             console.log(err.response.data.message);
             dispatch(writeDatabaseError(err.response.data.message));
-          });
+          });*/
       })
       .catch((err) => {
+        dispatch(writeDatabaseError(err.response.data.message));
+      });
+    axios
+      .put(`http://localhost:8000/clients/${clientId}`, databaseClient, {
+        headers: { authorization: token },
+      })
+      .then((response) => {
+        console.log(response.data);
+        dispatch(changeClient(response.data));
+      })
+      .catch((err) => {
+        console.log(err.response.data.message);
         dispatch(writeDatabaseError(err.response.data.message));
       });
   };
@@ -214,3 +281,113 @@ export const getAllClientAPI = (token) => (dispatch) => {
       dispatch(writeDatabaseError(err.response.data.message));
     });
 };
+
+export const updateClientaAPI = (token, clientId, client) => (dispatch) => {
+  axios
+    .put(`http://localhost:8000/clients/${clientId}`, client, {
+      headers: { authorization: token },
+    })
+    .then((response) => {
+      dispatch(getAllClients(response.data));
+    })
+    .catch((err) => {
+      dispatch(writeDatabaseError(err.response.data.message));
+    });
+};
+
+export const getDataAPI = (token) => (dispatch) => {
+  axios
+    .get("http://localhost:8000/data/jobs", {
+      headers: { authorization: token },
+    })
+    .then((response) => dispatch(getJobs(response.data)))
+    .catch((err) => {
+      dispatch(writeDatabaseError(err.response.data.message));
+    });
+
+  axios
+    .get("http://localhost:8000/data/sectors", {
+      headers: { authorization: token },
+    })
+    .then((response) => dispatch(getSectors(response.data)))
+    .catch((err) => {
+      dispatch(writeDatabaseError(err.response.data.message));
+    });
+
+  axios
+    .get("http://localhost:8000/data/priorities", {
+      headers: { authorization: token },
+    })
+    .then((response) => dispatch(getPriorities(response.data)))
+    .catch((err) => {
+      dispatch(writeDatabaseError(err.response.data.message));
+    });
+};
+
+export const addJobAPI = (token, job) => (dispatch) => {
+  axios
+    .post("http://localhost:8000/data/jobs", job, {
+      headers: { authorization: token },
+    })
+    .then((response) => dispatch(getJobs(response.data)))
+    .catch((err) => {
+      dispatch(writeDatabaseError(err.response.data.message));
+    });
+};
+
+export const addSectorAPI = (token, sector) => (dispatch) => {
+  axios
+    .post("http://localhost:8000/data/sectors", sector, {
+      headers: { authorization: token },
+    })
+    .then((response) => dispatch(getSectors(response.data)))
+    .catch((err) => {
+      dispatch(writeDatabaseError(err.response.data.message));
+    });
+};
+
+export const addPriorityAPI = (token, priority) => (dispatch) => {
+  axios
+    .post("http://localhost:8000/data/priorities", priority, {
+      headers: { authorization: token },
+    })
+    .then((response) => dispatch(getPriorities(response.data)))
+    .catch((err) => {
+      dispatch(writeDatabaseError(err.response.data.message));
+    });
+};
+
+export const updateJobAPI = (token, jobId, job) => (dispatch) => {
+  axios
+    .put(`http://localhost:8000/data/jobs/${jobId}`, job, {
+      headers: { authorization: token },
+    })
+    .then((response) => dispatch(getJobs(response.data)))
+    .catch((err) => {
+      dispatch(writeDatabaseError(err.response.data.message));
+    });
+};
+
+export const updateSectorAPI = (token, sectorId, sector) => (dispatch) => {
+  axios
+    .put(`http://localhost:8000/data/sectors/${sectorId}`, sector, {
+      headers: { authorization: token },
+    })
+    .then((response) => dispatch(getSectors(response.data)))
+    .catch((err) => {
+      dispatch(writeDatabaseError(err.response.data.message));
+    });
+};
+
+export const updatePriorityAPI =
+  (token, priorityId, priority) => (dispatch) => {
+    axios
+      .put(`http://localhost:8000/data/priorities/${priorityId}`, priority, {
+        headers: { authorization: token },
+      })
+      .then((response) => dispatch(getPriorities(response.data)))
+      .catch((err) => {
+        console.log(err.response.data.message);
+        dispatch(writeDatabaseError(err.response.data.message));
+      });
+  };

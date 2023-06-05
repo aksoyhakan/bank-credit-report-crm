@@ -11,12 +11,13 @@ export default function AdminPanel() {
       <Navbar />
       <div
         className={`flex-1 relative ${
-          nightMode ? "bg-slate-600" : "bg-gray-200"
+          nightMode ? "bg-slate-500" : "bg-gray-200"
         } `}
       >
         <Header />
         <DataPanel />
       </div>
+      s
     </div>
   );
 }

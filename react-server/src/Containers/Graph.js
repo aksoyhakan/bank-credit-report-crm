@@ -47,7 +47,7 @@ function Graph() {
   return (
     <div>
       <h1
-        className={` text-center font-bold text-2xl ${
+        className={` text-center font-bold text-2xl mt-4 ${
           nightMode ? "text-white" : "text-black"
         }`}
       >
